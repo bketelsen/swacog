@@ -3,7 +3,6 @@
 
   export let hex = "";
   export let message = "HELLO";
-  export let response = "";
   let visible = false;
   let responseVisible = false;
 
@@ -49,7 +48,8 @@
   }
 
 	const moderateMessage = (async () => {
-		const response = await fetch(`api/moderate?${message}`)
+    const response = await fetch(`api/moderate?${message}`)
+    responseVisible = true
     return await response.json()
 	})()
 </script>
