@@ -37,9 +37,10 @@
     };
   }
   function handleClick(event) {
-    hex = "";
     hex = "Sending " + ascii_to_hexa(message);
     visible = true;
+    setTimeout(function() { visible=false; }, 10000);
+
   }
 </script>
 
