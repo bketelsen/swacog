@@ -53,6 +53,7 @@
 
     setTimeout(function() {
       visible = false;
+      message = "";
     }, 10000);
   }
 
@@ -63,6 +64,9 @@
         console.log(data);
         if (data.response.status === "FAIL") {
           console.log("FAIL");
+          visible=false;
+          message = "";
+          hex = "";
           comError = true;
           comMessage = "MISSION CONTROL REJECTS MESSAGE";
           setTimeout(function() {
