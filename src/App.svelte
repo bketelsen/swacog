@@ -55,9 +55,12 @@
   function moderateMessage() {
     fetch(`api/moderate?message=${message}`, { method: "POST" })
       .then(result => {
+        console.log(result);
         if (result.status) {
+          console.log("There is a status", result);
           response = result.status;
         } else {
+          console.log("There is no status", result)
           response = "ERROR";
         }
       })
