@@ -4,6 +4,7 @@
   export let hex = "";
   export let message = "HELLO";
   let visible = false;
+  let response = "";
   let responseVisible = false;
 
   function ascii_to_hexa(str) {
@@ -42,16 +43,27 @@
     visible = true;
     responseVisible = false;
     response = "";
+    moderateMessage();
     setTimeout(function() {
       visible = false;
     }, 10000);
   }
 
-	const moderateMessage = (async () => {
-    const response = await fetch(`api/moderate?${message}`, {method: 'POST'})
-    responseVisible = true
-    return await response.json()
-	})()
+  function moderateMessage() {
+    fetch(`api/moderate?${message}`, { method: "POST" })
+      .then(result => {
+        if (result.status) {
+          response = result.status;
+        } else {
+          response = "ERROR";
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        response = "COMMUNICATIONS ERROR";
+      });
+      responseVisible = true;
+  }
 </script>
 
 <style>
@@ -88,13 +100,7 @@
     <p in:typewriter>{hex}</p>
   {/if}
 
-{#if responseVisible}
-{#await moderateMessage}
-	<p>...submitting to MISSION CONTROL</p>
-{:then data}
-  <p>{data.response.status}</p>
-{:catch error}
-	<p>An error occurred!</p>
-{/await}
-{/if}
+  {#if responseVisible}
+    <p in:typewriter>{response}</p>
+  {/if}
 </main>
