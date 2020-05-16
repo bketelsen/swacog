@@ -4,8 +4,8 @@
   export let hex = "";
   export let message = "HELLO";
   let visible = false;
-  let response = "";
-  let responseVisible = false;
+  let comError = false;
+  let comMessage = "";
 
   function ascii_to_hexa(str) {
     var arr1 = [];
@@ -38,14 +38,18 @@
       }
     };
   }
+
+  function reset() {
+    visible = false;
+    comError = false;
+    comMessage = "";
+    hex = "";
+  }
   function handleClick(event) {
+    reset();
+    moderateMessage();
     visible = true;
-    if (moderateMessage()) {
-      hex = "Sending " + ascii_to_hexa(message);
-    } else {
-      hex = "MISSION CONTROL REJECTS MESSAGE";
-      message = "";
-    }
+    hex = "Sending " + ascii_to_hexa(message);
 
     setTimeout(function() {
       visible = false;
@@ -55,31 +59,16 @@
   function moderateMessage() {
     fetch(`api/moderate?message=${message}`, { method: "POST" })
       .then(result => result.json())
-      .then(result => {
-        console.log(result);
-        if (result.response.status) {
-          console.log("There is a status", result);
-          response = result.response.status;
-          console.log(response);
-        } else {
-          console.log("There is no status", result);
-          response = "ERROR";
-          console.log(response);
+      .then(data => {
+        console.log(data);
+        if (data.response.status === "FAIL") {
+          console.log("FAIL");
+          comError = true;
+          comMessage = "MISSION CONTROL REJECTS MESSAGE";
+          setTimeout(function() {
+            reset()
+          }, 10000);
         }
-
-        if (response === "FAIL") {
-          console.log("FAILING");
-          return false;
-        } else {
-          console.log("PASSING");
-          return true;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        response = "COMMUNICATIONS ERROR";
-        console.log(response);
-        return false
       });
   }
 </script>
@@ -118,4 +107,7 @@
     <p in:typewriter>{hex}</p>
   {/if}
 
+  {#if comError}
+    <p in:typewriter>{comMessage}</p>
+  {/if}
 </main>
