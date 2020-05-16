@@ -1,0 +1,12 @@
+{
+  "name": "",
+  "version": "",
+  "description": "",
+  "scripts": {
+    "test": "echo \"No tests yet...\""
+  },
+  "author": "",
+  "dependencies": {
+    "@azure/ai-text-analytics": "^1.0.0-preview.4"
+  }
+}
