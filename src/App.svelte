@@ -54,6 +54,7 @@
 
   function moderateMessage() {
     fetch(`api/moderate?message=${message}`, { method: "POST" })
+      .then(result => result.json())
       .then(result => {
         console.log(result);
         if (result.status) {
