@@ -57,9 +57,9 @@
       .then(result => result.json())
       .then(result => {
         console.log(result);
-        if (result.status) {
+        if (result.response.status) {
           console.log("There is a status", result);
-          response = result.status;
+          response = result.response.status;
         } else {
           console.log("There is no status", result)
           response = "ERROR";
