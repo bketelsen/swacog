@@ -108,7 +108,7 @@
   <h1>NASA COMMS</h1>
   <p>Enter your message for the stranded astronaut below:</p>
   <input id="message" type="text" bind:value={message} />
-  <button bind:disabled={disabled} on:click={handleClick} id="submit" name="submit" value="send>>">
+  <button disabled={disabled} on:click={handleClick} id="submit" name="submit" value="send>>">
 
     Send >>
   </button>
