@@ -48,7 +48,7 @@
   }
 
 	const moderateMessage = (async () => {
-    const response = await fetch(`api/moderate?${message}`)
+    const response = await fetch(`api/moderate?${message}`, {method: 'POST'})
     responseVisible = true
     return await response.json()
 	})()
