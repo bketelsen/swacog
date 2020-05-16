@@ -43,9 +43,8 @@
     if (moderateMessage()) {
       hex = "Sending " + ascii_to_hexa(message);
     } else {
-
-      hex = "MISSION CONTROL REJECTS MESSAGE"
-      message = ""
+      hex = "MISSION CONTROL REJECTS MESSAGE";
+      message = "";
     }
 
     setTimeout(function() {
@@ -99,7 +98,7 @@
 <main>
   <h1>NASA COMMS</h1>
   <p>Enter your message for the stranded astronaut below:</p>
-  <input id="message" type="text" value={message} />
+  <input id="message" type="text" bind:value={message} />
   <button on:click={handleClick} id="submit" name="submit" value="send>>">
     Send >>
   </button>
