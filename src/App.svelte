@@ -60,18 +60,24 @@
         if (result.response.status) {
           console.log("There is a status", result);
           response = result.response.status;
+          console.log(response);
         } else {
           console.log("There is no status", result)
           response = "ERROR";
+          console.log(response);
         }
       })
       .catch(err => {
         console.log(err);
         response = "COMMUNICATIONS ERROR";
+
+          console.log(response);
       });
     if (response === "FAIL") {
+      console.log("FAILING")
       return false;
     } else {
+      console.log("PASSING")
       return true;
     }
   }
