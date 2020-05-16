@@ -49,7 +49,7 @@
   }
 
 	const moderateMessage = (async () => {
-		const response = await fetch(`api/MessagePost?${message}`)
+		const response = await fetch(`api/moderate?${message}`)
     return await response.json()
 	})()
 </script>
