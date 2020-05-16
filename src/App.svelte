@@ -3,7 +3,9 @@
 
   export let hex = "";
   export let message = "HELLO";
+  export let response = "";
   let visible = false;
+  let responseVisible = false;
 
   function ascii_to_hexa(str) {
     var arr1 = [];
@@ -39,9 +41,17 @@
   function handleClick(event) {
     hex = "Sending " + ascii_to_hexa(message);
     visible = true;
-    setTimeout(function() { visible=false; }, 10000);
-
+    responseVisible = false;
+    response = "";
+    setTimeout(function() {
+      visible = false;
+    }, 10000);
   }
+
+	const moderateMessage = (async () => {
+		const response = await fetch(`/api/MessagePost?{message}`)
+    return await response.json()
+	})()
 </script>
 
 <style>
@@ -78,4 +88,13 @@
     <p in:typewriter>{hex}</p>
   {/if}
 
+{#if responseVisible}
+{#await moderateMessage}
+	<p>...submitting to MISSION CONTROL</p>
+{:then data}
+  <p>{data.response.status}</p>
+{:catch error}
+	<p>An error occurred!</p>
+{/await}
+{/if}
 </main>
