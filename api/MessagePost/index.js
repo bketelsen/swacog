@@ -1,42 +1,57 @@
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-
-const endpoint = process.env["ENDPOINT"];
-const apiKey = process.env["APIKEY"]
+var mod = require("@azure/cognitiveservices-contentmoderator");
+var msr = require("@azure/ms-rest-azure-js");
 
 
-const client = new TextAnalyticsClient(
-  endpoing,
-  new AzureKeyCredential(apiKey)
+const contentModeratorKey = process.env["APIKEY"];
+const contentModeratorEndPoint = process.env["ENDPOINT"];
+const cognitiveServiceCredentials = new msr.CognitiveServicesCredentials(contentModeratorKey);
+
+const client = new mod.ContentModeratorClient(
+  cognitiveServiceCredentials,
+  contentModeratorEndPoint
 );
+
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP trigger function processed a request.');
 
-  var documents = [];
-  var resultArray = [];
-
+  var response = { }
   if (req.query.message) {
-    documents.push(req.query.message);
-    const results = await client.analyzeSentiment(documents);
-    for (const result of results) {
-      if (result.error === undefined) {
-        resultArray.push(result);
-      } else {
-        console.error("Encountered an error:", result.error);
-      }
-    }
-  }
+    console.log("got a message:", req.query.message);
+    await client.textModeration
+      .screenText("text/plain", req.query.message)
+      .then((result) => {
+        if (result.terms) {
+          response = {
+            status: "FAIL",
+            terms: result.terms.length
+          }
+        } else {
+          response = {
+            // status: 200, /* Defaults to 200 */
+            status: "OK"
+          };
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        response = {
+          status: 400,
+          body: "Please pass a message on the query string"
+        };
+      });
 
-  if (req.query.message) {
     context.res = {
       // status: 200, /* Defaults to 200 */
-      body: JSON.stringify(resultArray)
+      body: { response }
     };
-  }
-  else {
+  } else {
+
+    console.log("no params");
     context.res = {
-      status: 400,
-      body: "Please pass a message on the query string"
+      // status: 200, /* Defaults to 200 */
+      body: { status: "No Input" }
     };
   }
+  context.done()
 };

@@ -1,12 +1,16 @@
 {
-  "name": "",
-  "version": "",
+  "name": "functions",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "func start",
     "test": "echo \"No tests yet...\""
   },
-  "author": "",
   "dependencies": {
-    "@azure/ai-text-analytics": "^1.0.0-preview.4"
-  }
+    "@azure/cognitiveservices-contentmoderator": "^5.0.0",
+    "@azure/ms-rest-azure-js": "^2.0.1",
+    "install": "^0.13.0",
+    "npm": "^6.14.5"
+  },
+  "devDependencies": {}
 }
