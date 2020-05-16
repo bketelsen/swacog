@@ -6,6 +6,7 @@
   let visible = false;
   let comError = false;
   let comMessage = "";
+  let disabled = false;
 
   function ascii_to_hexa(str) {
     var arr1 = [];
@@ -48,6 +49,7 @@
   function handleClick(event) {
     message = message.toUpperCase();
     reset();
+    disabled = true;
     moderateMessage();
     hex = "Sending " + ascii_to_hexa(message);
   }
@@ -65,11 +67,13 @@
           comError = true;
           comMessage = "MISSION CONTROL REJECTS MESSAGE";
           setTimeout(function() {
+            disabled = false;
             reset();
           }, 10000);
         } else {
           visible = true;
           setTimeout(function() {
+            disabled = false;
             visible = false;
             message = "";
           }, 10000);
@@ -104,7 +108,8 @@
   <h1>NASA COMMS</h1>
   <p>Enter your message for the stranded astronaut below:</p>
   <input id="message" type="text" bind:value={message} />
-  <button on:click={handleClick} id="submit" name="submit" value="send>>">
+  <button bind:disabled={disabled} on:click={handleClick} id="submit" name="submit" value="send>>">
+
     Send >>
   </button>
 
