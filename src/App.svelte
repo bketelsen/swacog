@@ -46,6 +46,7 @@
     hex = "";
   }
   function handleClick(event) {
+    message = message.toUpperCase();
     reset();
     moderateMessage();
     hex = "Sending " + ascii_to_hexa(message);
