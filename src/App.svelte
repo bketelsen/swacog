@@ -39,11 +39,15 @@
     };
   }
   function handleClick(event) {
-    hex = "Sending " + ascii_to_hexa(message);
     visible = true;
-    responseVisible = false;
-    response = "";
-    moderateMessage();
+    if (moderateMessage()) {
+      hex = "Sending " + ascii_to_hexa(message);
+    } else {
+
+      hex = "MISSION CONTROL REJECTS MESSAGE"
+      message = ""
+    }
+
     setTimeout(function() {
       visible = false;
     }, 10000);
@@ -52,8 +56,8 @@
   function moderateMessage() {
     fetch(`api/moderate?message=${message}`, { method: "POST" })
       .then(result => {
-        if (result.status) {
-          response = result.status;
+        if (result.response.status) {
+          response = result.response.status;
         } else {
           response = "ERROR";
         }
@@ -62,7 +66,11 @@
         console.log(err);
         response = "COMMUNICATIONS ERROR";
       });
-      responseVisible = true;
+    if (response === "FAIL") {
+      return false;
+    } else {
+      return true;
+    }
   }
 </script>
 
@@ -100,7 +108,4 @@
     <p in:typewriter>{hex}</p>
   {/if}
 
-  {#if responseVisible}
-    <p in:typewriter>{response}</p>
-  {/if}
 </main>
