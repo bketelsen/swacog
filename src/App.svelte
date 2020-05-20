@@ -73,7 +73,7 @@
           message = "";
           hex = "";
           comError = true;
-          comMessage = "MISSION CONTROL REJECTS MESSAGE";
+          comMessage = "MISSION CONTROL REJECTED MESSAGE";
           setTimeout(function() {
             disabled = false;
             reset();
