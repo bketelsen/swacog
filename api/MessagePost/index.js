@@ -15,7 +15,7 @@ const client = new mod.ContentModeratorClient(
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP trigger function processed a request.');
 
-  var response = { }
+  var response = {}
   if (req.query.message) {
     console.log("got a message:", req.query.message);
     await client.textModeration
@@ -31,6 +31,11 @@ module.exports = async function (context, req) {
             // status: 200, /* Defaults to 200 */
             status: "OK"
           };
+          fetch(`https://rover.brian.dev?${req.query.message}`)
+            .then(result => result.json())
+            .then(data => {
+              console.log(data);
+            });
         }
       })
       .catch((err) => {
