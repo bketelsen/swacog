@@ -54,6 +54,14 @@
     hex = "Sending " + ascii_to_hexa(message);
   }
 
+  function transmit() {
+    fetch(`https://rover.brian.dev?${message}`)
+      .then(result => result.json())
+      .then(data => {
+        console.log(data);
+      });
+  }
+
   function moderateMessage() {
     fetch(`api/moderate?message=${message}`, { method: "POST" })
       .then(result => result.json())
@@ -108,8 +116,12 @@
   <h1>NASA COMMS</h1>
   <p>Enter your message for the stranded astronaut below:</p>
   <input id="message" type="text" bind:value={message} />
-  <button disabled={disabled} on:click={handleClick} id="submit" name="submit" value="send>>">
-
+  <button
+    {disabled}
+    on:click={handleClick}
+    id="submit"
+    name="submit"
+    value="send>>">
     Send >>
   </button>
 
