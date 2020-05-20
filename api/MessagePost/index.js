@@ -31,11 +31,13 @@ module.exports = async function (context, req) {
             // status: 200, /* Defaults to 200 */
             status: "OK"
           };
+          /*
           fetch(`https://rover.brian.dev?${req.query.message}`)
             .then(result => result.json())
             .then(data => {
               console.log(data);
             });
+            */
         }
       })
       .catch((err) => {
