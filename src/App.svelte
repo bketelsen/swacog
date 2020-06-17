@@ -51,7 +51,7 @@
     reset();
     disabled = true;
     moderateMessage();
-    hex = "Sending " + ascii_to_hexa(message);
+    hex = "Transmitting " + ascii_to_hexa(message);
   }
 
   function transmit() {
